@@ -1,15 +1,21 @@
 const express = require("express");
 const app = express();
+const { connectDB } = require("../db/connect");
+const dotenv = require("dotenv");
+
+dotenv.config();
+
 const PORT = 3000;
 
-app.get("/", (req, res) => {
-  res.send("Hello from Home");
-});
+const start = async () => {
+  try {
+    await connectDB();
+    app.listen(PORT, () => {
+      console.log(`✅ Server is listening at PORT: ${PORT}`);
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
 
-app.get("/test", (req, res) => {
-  res.send("Hello from Test");
-});
-
-app.listen(PORT, () => {
-  console.log("Server is successfully listening on port", PORT);
-});
+start();
