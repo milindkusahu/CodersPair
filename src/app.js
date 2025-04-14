@@ -1,22 +1,20 @@
 const express = require("express");
 const app = express();
+const PORT = 3000;
+
 const { connectDB } = require("./db/connect");
+
 const dotenv = require("dotenv");
+dotenv.config();
 
 const { User } = require("./models/user.model");
 
-dotenv.config();
-
-const PORT = 3000;
+// It will be run for all Routes
+// Converts JSON Object to JS Object
+app.use(express.json());
 
 app.post("/signup", async (req, res) => {
-  const user = new User({
-    username: "1",
-    firstName: "Milind",
-    lastName: "Sahu",
-    emailId: "milindsahu2000@gmail.com",
-    password: "milind123",
-  });
+  const user = new User(req.body);
 
   try {
     await user.save();
