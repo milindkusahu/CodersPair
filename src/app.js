@@ -14,9 +14,9 @@ const { User } = require("./models/user.model");
 app.use(express.json());
 
 app.post("/signup", async (req, res) => {
-  const user = new User(req.body);
-
   try {
+    const user = new User(req.body);
+
     await user.save();
     res.send("User added successfully!");
   } catch (err) {
@@ -25,10 +25,10 @@ app.post("/signup", async (req, res) => {
 });
 
 app.get("/user", async (req, res) => {
-  const userEmail = req.body.emailId;
-
   try {
+    const userEmail = req.body.emailId;
     const user = await User.find({ emailId: userEmail });
+
     if (user.length === 0) {
       res.status(404).send("User not found");
     } else {
@@ -40,11 +40,34 @@ app.get("/user", async (req, res) => {
 });
 
 app.get("/feed", async (req, res) => {
-  const allUser = await User.find({});
   try {
+    const allUser = await User.find({});
     res.send(allUser);
   } catch (err) {
-    res.status(400).send("Something went wrong");
+    res.status(400).send("Something went wrong!!");
+  }
+});
+
+app.delete("/user", async (req, res) => {
+  try {
+    const userId = req.body.userId;
+    await User.findByIdAndDelete({ _id: userId });
+    res.send("User is Deleted Successfully!");
+  } catch (err) {
+    res.status(400).send("Something went wrong!!");
+  }
+});
+
+app.patch("/user", async (req, res) => {
+  try {
+    const userId = req.body.userId;
+    const updatedData = req.body;
+    await User.findByIdAndUpdate({ _id: userId }, updatedData, {
+      returnDocument: "after",
+    });
+    res.send("User updated Successfully");
+  } catch (err) {
+    res.status(400).send("Something went wrong!!");
   }
 });
 
