@@ -1,13 +1,14 @@
 const express = require("express");
 const app = express();
 const PORT = 3000;
+const bcrypt = require("bcrypt");
 
 const { connectDB } = require("./db/connect");
-
 const dotenv = require("dotenv");
 dotenv.config();
 
 const { User } = require("./models/user.model");
+const { validateSignUpData } = require("./utils/validations");
 
 // It will be run for all Routes
 // Converts JSON Object to JS Object
@@ -15,12 +16,25 @@ app.use(express.json());
 
 app.post("/signup", async (req, res) => {
   try {
-    const user = new User(req.body);
+    // Validation of data
+    validateSignUpData(req);
+
+    const { firstName, lastName, emailId, password } = req.body;
+
+    // Encrypt the password
+    const passwordHash = await bcrypt.hash(password, 10);
+
+    const user = new User({
+      firstName,
+      lastName,
+      emailId,
+      password: passwordHash,
+    });
 
     await user.save();
     res.send("User added successfully!");
   } catch (err) {
-    res.status(400).send("Error saving the user:" + err.message);
+    res.status(400).send("ERROR : " + err.message);
   }
 });
 
