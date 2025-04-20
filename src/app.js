@@ -3,7 +3,7 @@ const app = express();
 const PORT = 3000;
 const bcrypt = require("bcrypt");
 const cookieParser = require("cookie-parser");
-const jwt = require("jsonwebtoken");
+
 const { userAuth } = require("./middleware/auth");
 
 const { connectDB } = require("./db/connect");
@@ -26,13 +26,13 @@ app.post("/signup", async (req, res) => {
     const { firstName, lastName, emailId, password } = req.body;
 
     // Encrypt the password
-    const passwordHash = await bcrypt.hash(password, 10);
+    // const passwordHash = await bcrypt.hash(password, 10); // pre-save hook will handle hashing
 
     const user = new User({
       firstName,
       lastName,
       emailId,
-      password: passwordHash,
+      password,
     });
 
     await user.save();
@@ -52,7 +52,7 @@ app.post("/login", async (req, res) => {
       throw new Error("Invalid Credentials");
     }
 
-    const isPasswordValid = await bcrypt.compare(password, user.password); // returns boolean
+    const isPasswordValid = await user.validatePassword(password); // returns boolean
 
     if (isPasswordValid) {
       // Create a JWT Token
