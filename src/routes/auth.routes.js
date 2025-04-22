@@ -12,6 +12,12 @@ router.post("/signup", async (req, res) => {
 
     const { firstName, lastName, emailId, password } = req.body;
 
+    const isUserPresent = await User.findOne({ emailId: emailId });
+
+    if (isUserPresent) {
+      throw new Error("User already exist!!!");
+    }
+
     // Encrypt the password
     // const passwordHash = await bcrypt.hash(password, 10); // pre-save hook will handle hashing
 
@@ -53,6 +59,18 @@ router.post("/login", async (req, res) => {
     } else {
       throw new Error("Invalid Credentials");
     }
+  } catch (err) {
+    res.status(400).send("ERROR : " + err.message);
+  }
+});
+
+router.post("/logout", async (req, res) => {
+  try {
+    res.cookie("token", null, {
+      expires: new Date(Date.now()),
+    });
+
+    res.send("Logout Successfull!!!");
   } catch (err) {
     res.status(400).send("ERROR : " + err.message);
   }
