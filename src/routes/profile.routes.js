@@ -1,6 +1,9 @@
 const express = require("express");
 const { userAuth } = require("../middleware/auth.middleware");
-const { validateEditProfileData } = require("../utils/validations");
+const {
+  validateEditProfileData,
+  validateEditProfilePassword,
+} = require("../utils/validations");
 
 const router = express.Router();
 
@@ -27,6 +30,28 @@ router.patch("/profile/edit", userAuth, async (req, res) => {
     await loggedInUser.save();
 
     res.json({ message: "Profile updated Successfully!!!" });
+  } catch (err) {
+    res.status(400).send("ERROR : " + err.message);
+  }
+});
+
+router.patch("/profile/password", userAuth, async (req, res) => {
+  try {
+    validateEditProfilePassword(req);
+
+    const loggedInUser = req.user;
+    const { currentPassword, newPassword } = req.body;
+
+    const isMatch = await loggedInUser.validatePassword(currentPassword);
+
+    if (!isMatch) {
+      throw new Error("Current password is incorrect.");
+    }
+
+    loggedInUser.password = newPassword;
+
+    await loggedInUser.save();
+    res.json({ message: "Password updated successfully!" });
   } catch (err) {
     res.status(400).send("ERROR : " + err.message);
   }
