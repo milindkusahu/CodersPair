@@ -10,9 +10,10 @@ router.post("/request/send/:status/:toUserId", userAuth, async (req, res) => {
     const fromUserId = req.user._id; // Loggedin User
     const { toUserId, status } = req.params;
 
-    if (fromUserId.toString() === toUserId.toString()) {
-      return res.status(400).json({ message: `Invaid Request` });
-    }
+    // Already handled using .pre in Schema
+    // if (fromUserId.toString() === toUserId.toString()) {
+    //   return res.status(400).json({ message: `Invaid Request` });
+    // }
 
     const allowedStatus = ["ignored", "interested"];
 
@@ -23,10 +24,6 @@ router.post("/request/send/:status/:toUserId", userAuth, async (req, res) => {
     const toUser = await User.findById(toUserId);
     if (!toUser) {
       return res.status(400).json({ message: `User not found!` });
-    }
-
-    if (fromUserId === toUserId) {
-      return res.status(400).json({ message: `Invaid Request` });
     }
 
     // Check if there is an exisitng connectionRequest
