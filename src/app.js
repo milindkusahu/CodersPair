@@ -11,6 +11,7 @@ dotenv.config();
 const authRouter = require("./routes/auth.routes");
 const profileRouter = require("./routes/profile.routes");
 const requestRouter = require("./routes/request.routes");
+const userRouter = require("./routes/user.routes");
 
 // It will be run for all Routes
 // Converts JSON Object to JS Object
@@ -20,6 +21,7 @@ app.use(cookieParser());
 app.use("/", authRouter);
 app.use("/", profileRouter);
 app.use("/", requestRouter);
+app.use("/", userRouter);
 
 const start = async () => {
   try {

@@ -91,7 +91,7 @@ router.post(
 
       const data = await connectionRequest.save();
 
-      res.json({ message: `Connection request ${status}` });
+      res.json({ message: `Connection request ${status}`, data: data });
     } catch (err) {
       res.status(400).send("ERROR : " + err.message);
     }
