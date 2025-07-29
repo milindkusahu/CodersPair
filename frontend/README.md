@@ -1,4 +1,4 @@
-Tech Stack: React, Tailwind CSS, daisyUI, React Router,
+Tech Stack: React, Tailwind CSS, daisyUI, React Router, Axios, Redux Toolkit
 
 ## Component Design
 
@@ -45,3 +45,11 @@ If we don't pass withCredentials, it will not sent the token back for other API 
     }
   };
 ```
+## Redux Tool Kit
+
+1. Install react-redux + @reduxjs/toolkit
+2. Configure store.
+3. Provide the store to the application using <Provider>.
+4. Create Slice and export
+5. Add reducer to the store.
+6. Add data to redux store through dispatch
