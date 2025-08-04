@@ -2,11 +2,27 @@ import axios from "axios";
 import { BASE_URL } from "../utils/constants";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addRequest } from "../utils/requestSlice";
+import { addRequest, removeRequest } from "../utils/requestSlice";
 
 const Requests = () => {
   const requests = useSelector((store) => store.requests);
   const dispatch = useDispatch();
+
+  const reviewRequest = async (status, _id) => {
+    try {
+      await axios.post(
+        BASE_URL + `/request/review/${status}/${_id}`,
+        {},
+        {
+          withCredentials: true,
+        }
+      );
+
+      dispatch(removeRequest(_id));
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   const fetchRequests = async () => {
     try {
@@ -94,8 +110,18 @@ const Requests = () => {
                 )}
 
                 <div className="card-actions">
-                  <button className="btn btn-secondary btn-sm">Reject</button>
-                  <button className="btn btn-success btn-sm">Accept</button>
+                  <button
+                    className="btn btn-secondary btn-sm"
+                    onClick={() => reviewRequest("rejected", request._id)}
+                  >
+                    Reject
+                  </button>
+                  <button
+                    className="btn btn-success btn-sm"
+                    onClick={() => reviewRequest("accepted", request._id)}
+                  >
+                    Accept
+                  </button>
                 </div>
               </div>
             </div>
