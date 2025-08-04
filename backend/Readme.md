@@ -1,10 +1,10 @@
-# DevTinder Backend - Connect & Collaborate with Developers
+# CodersPair Backend - Connect & Collaborate with Developers
 
-DevTinder is a social platform designed for developers to connect, collaborate, hang out, and build amazing projects together. Think of it as the developer's version of a social match-making app, but for techies!
+CodersPair is a social platform designed for developers to connect, collaborate, hang out, and build amazing projects together. Think of it as the developer's version of a social match-making app, but for techies!
 
 ---
 
-## 🚀 Why DevTinder?
+## 🚀 Why CodersPair?
 
 This project is more than just a fun idea—it's a learning playground packed with essential features found in many real-world applications. It’s a perfect hands-on project to strengthen full-stack skills and understand scalable app design.
 
