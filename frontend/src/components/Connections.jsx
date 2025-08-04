@@ -57,7 +57,7 @@ const Connections = () => {
                 <img
                   src={photoUrl || "/default-avatar.png"}
                   alt={`${firstName} ${lastName}`}
-                  className="rounded-xl w-32 h-32 object-cover"
+                  className="rounded-xl w-32 h-38 object-fill"
                 />
               </figure>
 
