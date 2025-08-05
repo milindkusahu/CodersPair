@@ -42,7 +42,7 @@ const NavBar = () => {
             </svg>
             Theme
           </Link>
-          <p className="flex items-center">Welcome, {user.firstName}</p>
+
           <div className="dropdown dropdown-end mx-5">
             <div
               tabIndex={0}
@@ -58,18 +58,21 @@ const NavBar = () => {
               className="menu menu-sm dropdown-content bg-base-200 rounded-box z-1 mt-3 w-52 p-2 shadow"
             >
               <li>
-                <Link to="/profile" className="justify-between">
+                <p className="text-base">Welcome, {user.firstName}</p>
+              </li>
+              <li>
+                <Link to="/profile" className="text-sm justify-between">
                   Profile
                   <span className="badge">New</span>
                 </Link>
               </li>
               <li>
-                <Link to="/connections" className="justify-between">
+                <Link to="/connections" className="text-sm justify-between">
                   Connections
                 </Link>
               </li>
               <li>
-                <Link to="/requests" className="justify-between">
+                <Link to="/requests" className="text-sm justify-between">
                   Requests
                 </Link>
               </li>
