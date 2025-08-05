@@ -46,7 +46,7 @@ const Footer = () => {
       <aside>
         <p>
           Copyright © {new Date().getFullYear()} - All right reserved by
-          DevTinder
+          CodersPair
         </p>
       </aside>
     </footer>
