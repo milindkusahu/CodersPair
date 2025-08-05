@@ -7,6 +7,7 @@ import appStore from "./utils/appStore";
 import Feed from "./components/Feed";
 import Connections from "./components/Connections";
 import Requests from "./components/Requests";
+import ThemeSwitcher from "./components/ThemeSwitcher";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
               <Route path="/profile" element={<Profile />} />
               <Route path="/connections" element={<Connections />} />
               <Route path="/requests" element={<Requests />} />
+              <Route path="/theme" element={<ThemeSwitcher />} />
             </Route>
           </Routes>
         </BrowserRouter>
