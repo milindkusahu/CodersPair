@@ -61,17 +61,17 @@ const EditProfile = ({ user }) => {
   };
 
   return (
-    <div className="flex justify-center my-10">
+    <div className="flex flex-col lg:flex-row justify-center my-10">
       {/* Form Section */}
-      <div className="mx-10">
+      <div className="mx-4 lg:mx-10">
         <h2 className="mt-1 text-center text-2xl/9 font-bold tracking-tight text-gray-300">
           Edit Profile
         </h2>
 
-        <div className="mt-10 sm:mx-auto sm:max-w-md lg:max-w-2xl card bg-base-300 shadow-sm p-6">
+        <div className="mt-10 mx-auto max-w-md lg:max-w-2xl card bg-base-300 shadow-sm p-4 lg:p-6">
           <form className="space-y-6" onSubmit={(e) => saveProfile(e)}>
             {/* First Name and Last Name */}
-            <div className="grid md:grid-cols-2 md:gap-6">
+            <div className="grid sm:grid-cols-2 sm:gap-4 lg:gap-6">
               <div>
                 <label htmlFor="firstName" className={styles.label}>
                   First Name
