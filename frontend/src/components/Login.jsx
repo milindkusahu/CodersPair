@@ -5,6 +5,14 @@ import { addUser } from "../utils/userSlice";
 import { useNavigate } from "react-router-dom";
 import { BASE_URL } from "../utils/constants";
 
+const styles = {
+  label: "text-sm/6 font-medium",
+  input:
+    "input input-bordered bg-base-200 w-full rounded-md px-3 py-1.5 text-base focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600",
+  button:
+    "btn btn-primary flex w-full justify-center rounded-md px-3 py-1.5 text-sm/6 font-semibold shadow-xs focus-visible:outline-2 focus-visible:outline-offset-2",
+};
+
 const Login = () => {
   const [emailId, setEmailId] = useState("ankit@x.com");
   const [password, setPassword] = useState("eaof#648SJJ_5");
@@ -64,7 +72,7 @@ const Login = () => {
           src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=600"
           className="mx-auto h-10 w-auto"
         />
-        <h2 className="mt-10 text-center text-2xl/9 font-bold tracking-tight text-gray-300">
+        <h2 className="mt-7 text-center text-2xl/9 font-bold tracking-tight">
           {isLoginForm ? "Sign in to your account" : "Create an account"}
         </h2>
       </div>
@@ -79,10 +87,7 @@ const Login = () => {
           {!isLoginForm && (
             <div className="flex gap-5">
               <div>
-                <label
-                  htmlFor="firstName"
-                  className="block text-sm/6 font-medium text-gray-300"
-                >
+                <label htmlFor="firstName" className={styles.label}>
                   First Name
                 </label>
                 <div className="mt-2">
@@ -92,7 +97,7 @@ const Login = () => {
                     type="text"
                     required
                     autoComplete="firstName"
-                    className="block w-full rounded-md bg-base-100 px-3 py-1.5 text-base text-gray-300 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+                    className={styles.input}
                     value={firstName}
                     onChange={(e) => setFirstName(e.target.value)}
                   />
@@ -100,10 +105,7 @@ const Login = () => {
               </div>
 
               <div>
-                <label
-                  htmlFor="lastName"
-                  className="block text-sm/6 font-medium text-gray-300"
-                >
+                <label htmlFor="lastName" className={styles.label}>
                   Last Name
                 </label>
                 <div className="mt-2">
@@ -113,7 +115,7 @@ const Login = () => {
                     type="text"
                     required
                     autoComplete="lastName"
-                    className="block w-full rounded-md bg-base-100 px-3 py-1.5 text-base text-gray-300 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+                    className={styles.input}
                     value={lastName}
                     onChange={(e) => setLastName(e.target.value)}
                   />
@@ -123,10 +125,7 @@ const Login = () => {
           )}
 
           <div>
-            <label
-              htmlFor="email"
-              className="block text-sm/6 font-medium text-gray-300"
-            >
+            <label htmlFor="email" className={styles.label}>
               Email address
             </label>
             <div className="mt-2">
@@ -136,7 +135,7 @@ const Login = () => {
                 type="email"
                 required
                 autoComplete="email"
-                className="block w-full rounded-md bg-base-100 px-3 py-1.5 text-base text-gray-300 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+                className={styles.input}
                 value={emailId}
                 onChange={(e) => setEmailId(e.target.value)}
               />
@@ -145,17 +144,11 @@ const Login = () => {
 
           <div>
             <div className="flex items-center justify-between">
-              <label
-                htmlFor="password"
-                className="block text-sm/6 font-medium text-gray-300"
-              >
+              <label htmlFor="password" className={styles.label}>
                 Password
               </label>
               <div className="text-sm">
-                <a
-                  href="#"
-                  className="font-semibold text-indigo-500 hover:text-indigo-400"
-                >
+                <a href="#" className="font-semibold text-xs text-info">
                   Forgot password?
                 </a>
               </div>
@@ -167,7 +160,7 @@ const Login = () => {
                 type="password"
                 required
                 autoComplete="current-password"
-                className="block w-full rounded-md bg-base-100 px-3 py-1.5 text-base text-gray-300 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+                className={styles.input}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
@@ -177,22 +170,19 @@ const Login = () => {
           <p className="text-red-500">{error}</p>
 
           <div>
-            <button
-              type="submit"
-              className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm/6 font-semibold text-gray-200 shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 cursor-pointer"
-            >
+            <button type="submit" className={styles.button}>
               {isLoginForm ? "Sign in" : "Create an account"}
             </button>
           </div>
         </form>
 
-        <p className="mt-10 text-center text-sm/6 text-gray-300 cursor-pointer">
+        <p className="mt-8 text-center text-sm/6 text-gray-300 cursor-pointer">
           {isLoginForm
             ? `Don't have an account? `
             : `Already have an account? `}
           <a
             onClick={() => setIsLoginForm(!isLoginForm)}
-            className="font-semibold text-indigo-500 hover:text-indigo-400"
+            className="font-semibold text-info"
           >
             {isLoginForm ? "Register here" : "Login here"}
           </a>
