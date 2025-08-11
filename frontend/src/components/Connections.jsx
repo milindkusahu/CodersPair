@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { BASE_URL } from "../utils/constants";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
@@ -8,29 +8,41 @@ const Connections = () => {
   const connections = useSelector((store) => store.connections);
   const dispatch = useDispatch();
 
+  const [loading, setLoading] = useState(true);
+
   const fetchConnections = async () => {
     try {
+      setLoading(true);
       const res = await axios.get(BASE_URL + "/user/connections", {
         withCredentials: true,
       });
       dispatch(addConnections(res?.data?.data));
     } catch (err) {
       console.error(err);
+    } finally {
+      setLoading(false);
     }
   };
 
   useEffect(() => {
-    fetchConnections();
+    if (!connections || connections.length === 0) {
+      fetchConnections();
+    }
   }, []);
 
-  if (!connections) return;
+  if (!connections) return null;
 
-  if (connections.length === 0)
+  if (loading) {
+    return <p className="text-center mt-10">Loading connections...</p>;
+  }
+
+  if (connections.length === 0) {
     return (
-      <h1 className="mt-1 text-center text-2xl/9 font-bold tracking-tight text-gray-300">
+      <h1 className="mt-1 text-center text-2xl font-bold tracking-tight text-gray-300">
         No Connections Found!!!
       </h1>
     );
+  }
 
   return (
     <div className="my-10">
@@ -57,7 +69,7 @@ const Connections = () => {
                 <img
                   src={photoUrl || "/default-avatar.png"}
                   alt={`${firstName} ${lastName}`}
-                  className="rounded-xl w-32 h-38 object-fill"
+                  className="rounded-xl w-36 h-36 object-cover"
                 />
               </figure>
 

@@ -1,12 +1,14 @@
 import axios from "axios";
 import { BASE_URL } from "../utils/constants";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addRequest, removeRequest } from "../utils/requestSlice";
 
 const Requests = () => {
   const requests = useSelector((store) => store.requests);
   const dispatch = useDispatch();
+
+  const [loading, setLoading] = useState(true);
 
   const reviewRequest = async (status, _id) => {
     try {
@@ -26,21 +28,30 @@ const Requests = () => {
 
   const fetchRequests = async () => {
     try {
+      setLoading(true);
       const res = await axios.get(BASE_URL + "/user/requests/received", {
         withCredentials: true,
       });
 
-      dispatch(addRequest(res.data.data));
+      dispatch(addRequest(res?.data?.data));
     } catch (err) {
       console.error(err);
+    } finally {
+      setLoading(false);
     }
   };
 
   useEffect(() => {
-    fetchRequests();
+    if (!requests || requests.length === 0) {
+      fetchRequests();
+    }
   }, []);
 
-  if (!requests) return;
+  if (!requests) return null;
+
+  if (loading) {
+    return <p className="text-center mt-10">Loading requests...</p>;
+  }
 
   if (requests.length === 0)
     return (
@@ -74,7 +85,7 @@ const Requests = () => {
                 <img
                   src={photoUrl || "/default-avatar.png"}
                   alt={`${firstName} ${lastName}`}
-                  className="rounded-xl w-32 h-38 object-fill"
+                  className="rounded-xl w-36 h-36 object-cover"
                 />
               </figure>
 
@@ -111,12 +122,14 @@ const Requests = () => {
 
                 <div className="card-actions">
                   <button
+                    aria-label={`Reject request from ${firstName} ${lastName}`}
                     className="btn btn-secondary btn-sm"
                     onClick={() => reviewRequest("rejected", request._id)}
                   >
                     Reject
                   </button>
                   <button
+                    aria-label={`Accept request from ${firstName} ${lastName}`}
                     className="btn btn-success btn-sm"
                     onClick={() => reviewRequest("accepted", request._id)}
                   >
