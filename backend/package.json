@@ -14,6 +14,7 @@
   "author": "Milind Kumar Sahu",
   "license": "ISC",
   "dependencies": {
+    "@aws-sdk/client-ses": "^3.864.0",
     "bcrypt": "^5.1.1",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
