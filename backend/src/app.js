@@ -1,13 +1,13 @@
 const express = require("express");
 const app = express();
-const PORT = 3000;
+const dotenv = require("dotenv");
+dotenv.config();
+const PORT = process.env.PORT || 3000;
 
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
 
 const { connectDB } = require("./db/connect");
-const dotenv = require("dotenv");
-dotenv.config();
 
 const authRouter = require("./routes/auth.routes");
 const profileRouter = require("./routes/profile.routes");
@@ -18,7 +18,10 @@ const userRouter = require("./routes/user.routes");
 // Converts JSON Object to JS Object
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin:
+      process.env.NODE_ENV === "development"
+        ? "http://localhost:5173"
+        : "https://coderspair.com",
     credentials: true,
   })
 );
