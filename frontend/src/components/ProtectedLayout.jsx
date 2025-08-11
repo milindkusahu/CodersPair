@@ -7,30 +7,29 @@ import { useDispatch, useSelector } from "react-redux";
 import { addUser } from "../utils/userSlice";
 import { useEffect } from "react";
 
-const Body = () => {
+const ProtectedLayout = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const userData = useSelector((store) => store.user);
 
-  const fetchUser = async () => {
-    try {
-      const res = await axios.get(BASE_URL + "/profile/view", {
-        withCredentials: true,
-      });
-      dispatch(addUser(res.data));
-    } catch (err) {
-      if (err.status === 401) {
-        navigate("/login");
-      }
-      console.error(err);
-    }
-  };
-
   useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const res = await axios.get(`${BASE_URL}/profile/view`, {
+          withCredentials: true,
+        });
+        dispatch(addUser(res.data));
+      } catch (err) {
+        if (err.response?.status === 401) {
+          navigate("/login");
+        }
+      }
+    };
+
     if (!userData) {
       fetchUser();
     }
-  }, []);
+  }, [userData, dispatch, navigate]);
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -43,4 +42,4 @@ const Body = () => {
   );
 };
 
-export default Body;
+export default ProtectedLayout;

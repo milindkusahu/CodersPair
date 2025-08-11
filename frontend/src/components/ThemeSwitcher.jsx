@@ -2,42 +2,42 @@ import { useState, useEffect } from "react";
 import UserCard from "./UserCard";
 import { useSelector } from "react-redux";
 
-const ThemeSwitcher = () => {
-  const themes = [
-    "light",
-    "dark",
-    "cupcake",
-    "bumblebee",
-    "emerald",
-    "corporate",
-    "synthwave",
-    "retro",
-    "cyberpunk",
-    "valentine",
-    "halloween",
-    "garden",
-    "forest",
-    "aqua",
-    "lofi",
-    "pastel",
-    "fantasy",
-    "wireframe",
-    "black",
-    "luxury",
-    "dracula",
-    "cmyk",
-    "autumn",
-    "business",
-    "acid",
-    "lemonade",
-    "night",
-    "coffee",
-    "winter",
-    "dim",
-    "nord",
-    "sunset",
-  ];
+const themes = [
+  "light",
+  "dark",
+  "cupcake",
+  "bumblebee",
+  "emerald",
+  "corporate",
+  "synthwave",
+  "retro",
+  "cyberpunk",
+  "valentine",
+  "halloween",
+  "garden",
+  "forest",
+  "aqua",
+  "lofi",
+  "pastel",
+  "fantasy",
+  "wireframe",
+  "black",
+  "luxury",
+  "dracula",
+  "cmyk",
+  "autumn",
+  "business",
+  "acid",
+  "lemonade",
+  "night",
+  "coffee",
+  "winter",
+  "dim",
+  "nord",
+  "sunset",
+];
 
+const ThemeSwitcher = () => {
   const [currentTheme, setCurrentTheme] = useState("dark");
 
   useEffect(() => {
@@ -61,10 +61,6 @@ const ThemeSwitcher = () => {
   };
 
   const user = useSelector((store) => store.user);
-
-  if (!user) {
-    return <div>Loading...</div>;
-  }
 
   return (
     <div className="h-fit container mx-auto px-4 pt-10 max-w-5xl">
@@ -108,14 +104,19 @@ const ThemeSwitcher = () => {
           ))}
         </div>
 
-        <div className="divider"></div>
+        {/* Only logged-in users see preview */}
+        {user && (
+          <div>
+            <div className="divider"></div>
 
-        <h3 className="text-lg font-semibold my-3">Preview</h3>
-        <div className="mt-10 my-10 flex justify-center">
-          <div className="w-full max-w-sm sm:max-w-md md:max-w-lg lg:max-w-xl">
-            <UserCard user={user} />
+            <h3 className="text-lg font-semibold my-3">Preview</h3>
+            <div className="mt-10 my-10 flex justify-center">
+              <div className="w-full max-w-sm sm:max-w-md md:max-w-lg lg:max-w-xl">
+                <UserCard user={user} />
+              </div>
+            </div>
           </div>
-        </div>
+        )}
       </div>
     </div>
   );

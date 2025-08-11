@@ -77,10 +77,21 @@ const NavBar = () => {
                 </Link>
               </li>
               <li>
-                <a onClick={handleLogout}>Logout</a>
+                <a onClick={handleLogout} className="text-sm justify-between">
+                  Logout
+                </a>
               </li>
             </ul>
           </div>
+        </div>
+      )}
+
+      {/* Show Theme button for everyone */}
+      {!user && (
+        <div className="flex gap-2">
+          <Link to="/theme" className="btn">
+            Theme
+          </Link>
         </div>
       )}
     </div>
