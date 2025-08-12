@@ -39,28 +39,25 @@ const themes = [
 
 const ThemeSwitcher = () => {
   const [currentTheme, setCurrentTheme] = useState("dark");
+  const user = useSelector((store) => store.user);
 
   useEffect(() => {
-    // Get current theme from document or localStorage
     const savedTheme =
       localStorage.getItem("theme") ||
       document.documentElement.getAttribute("data-theme") ||
       "dark";
     setCurrentTheme(savedTheme);
-    document.documentElement.setAttribute("data-theme", savedTheme);
   }, []);
 
   const changeTheme = (theme) => {
+    if (theme === currentTheme) return;
     document.documentElement.setAttribute("data-theme", theme);
     localStorage.setItem("theme", theme);
     setCurrentTheme(theme);
   };
 
-  const capitalizeTheme = (theme) => {
-    return theme.charAt(0).toUpperCase() + theme.slice(1);
-  };
-
-  const user = useSelector((store) => store.user);
+  const capitalizeTheme = (theme) =>
+    theme.charAt(0).toUpperCase() + theme.slice(1);
 
   return (
     <div className="h-fit container mx-auto px-4 pt-10 max-w-5xl">
