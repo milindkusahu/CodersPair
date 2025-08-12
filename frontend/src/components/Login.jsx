@@ -28,14 +28,10 @@ const Login = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post(
-        BASE_URL + "/login",
-        {
-          emailId,
-          password,
-        },
-        { withCredentials: true }
-      );
+      const res = await axios.post(`${BASE_URL}/login`, {
+        emailId,
+        password,
+      });
 
       dispatch(addUser(res.data));
       navigate("/");
@@ -47,16 +43,12 @@ const Login = () => {
   const handleSignup = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post(
-        BASE_URL + "/signup",
-        {
-          firstName,
-          lastName,
-          emailId,
-          password,
-        },
-        { withCredentials: true }
-      );
+      const res = await axios.post(`${BASE_URL}/signup`, {
+        firstName,
+        lastName,
+        emailId,
+        password,
+      });
       dispatch(addUser(res.data.data));
       navigate("/profile");
     } catch (err) {

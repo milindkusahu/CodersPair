@@ -8,17 +8,11 @@ const Requests = () => {
   const requests = useSelector((store) => store.requests);
   const dispatch = useDispatch();
 
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(!requests || requests.length === 0);
 
   const reviewRequest = async (status, _id) => {
     try {
-      await axios.post(
-        BASE_URL + `/request/review/${status}/${_id}`,
-        {},
-        {
-          withCredentials: true,
-        }
-      );
+      await axios.post(`${BASE_URL}/request/review/${status}/${_id}`);
 
       dispatch(removeRequest(_id));
     } catch (err) {
@@ -29,9 +23,7 @@ const Requests = () => {
   const fetchRequests = async () => {
     try {
       setLoading(true);
-      const res = await axios.get(BASE_URL + "/user/requests/received", {
-        withCredentials: true,
-      });
+      const res = await axios.get(`${BASE_URL}/user/requests/received`);
 
       dispatch(addRequest(res?.data?.data));
     } catch (err) {
@@ -47,13 +39,11 @@ const Requests = () => {
     }
   }, []);
 
-  if (!requests) return null;
-
-  if (loading) {
+  if (loading && (!requests || requests.length === 0)) {
     return <p className="text-center mt-10">Loading requests...</p>;
   }
 
-  if (requests.length === 0)
+  if (requests && requests.length === 0)
     return (
       <h1 className="mt-1 text-center text-2xl/9 font-bold tracking-tight text-gray-300">
         No Requests Found!!!

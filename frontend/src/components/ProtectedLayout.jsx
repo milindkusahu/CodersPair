@@ -15,9 +15,7 @@ const ProtectedLayout = () => {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const res = await axios.get(`${BASE_URL}/profile/view`, {
-          withCredentials: true,
-        });
+        const res = await axios.get(`${BASE_URL}/profile/view`);
         dispatch(addUser(res.data));
       } catch (err) {
         if (err.response?.status === 401) {

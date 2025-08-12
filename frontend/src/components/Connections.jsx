@@ -8,14 +8,14 @@ const Connections = () => {
   const connections = useSelector((store) => store.connections);
   const dispatch = useDispatch();
 
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(
+    !connections || connections.length === 0
+  );
 
   const fetchConnections = async () => {
     try {
       setLoading(true);
-      const res = await axios.get(BASE_URL + "/user/connections", {
-        withCredentials: true,
-      });
+      const res = await axios.get(`${BASE_URL}/user/connections`);
       dispatch(addConnections(res?.data?.data));
     } catch (err) {
       console.error(err);
@@ -30,13 +30,11 @@ const Connections = () => {
     }
   }, []);
 
-  if (!connections) return null;
-
-  if (loading) {
+  if (loading && (!connections || connections.length === 0)) {
     return <p className="text-center mt-10">Loading connections...</p>;
   }
 
-  if (connections.length === 0) {
+  if (connections && connections.length === 0) {
     return (
       <h1 className="mt-1 text-center text-2xl font-bold tracking-tight text-gray-300">
         No Connections Found!!!
