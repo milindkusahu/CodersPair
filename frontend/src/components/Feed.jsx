@@ -26,7 +26,7 @@ const Feed = () => {
 
   if (feed.length === 0)
     return (
-      <h1 className="mt-1 text-center text-2xl/9 font-bold tracking-tight text-gray-300">
+      <h1 className="mt-12 text-center text-2xl/9 font-bold tracking-tight">
         No new users Found!!!
       </h1>
     );

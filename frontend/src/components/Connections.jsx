@@ -36,7 +36,7 @@ const Connections = () => {
 
   if (connections && connections.length === 0) {
     return (
-      <h1 className="mt-1 text-center text-2xl font-bold tracking-tight text-gray-300">
+      <h1 className="mt-12 text-center text-2xl font-bold tracking-tight">
         No Connections Found!!!
       </h1>
     );
@@ -44,7 +44,7 @@ const Connections = () => {
 
   return (
     <div className="my-10">
-      <h2 className="mb-8 text-center text-2xl/9 font-bold tracking-tight text-gray-300">
+      <h2 className="mb-8 text-center text-2xl/9 font-bold tracking-tight">
         Connections
       </h2>
 

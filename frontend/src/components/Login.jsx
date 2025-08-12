@@ -168,7 +168,7 @@ const Login = () => {
           </div>
         </form>
 
-        <p className="mt-8 text-center text-sm/6 text-gray-300 cursor-pointer">
+        <p className="mt-8 text-center text-sm/6 cursor-pointer">
           {isLoginForm
             ? `Don't have an account? `
             : `Already have an account? `}

@@ -6,12 +6,12 @@ import { useDispatch } from "react-redux";
 import { addUser } from "../utils/userSlice";
 
 const styles = {
-  label: "block text-sm/6 font-medium text-gray-300 mt-2",
+  label: "block text-sm/6 font-medium mt-2",
   input: "input w-full max-w-xs",
   inputfull: "input w-full",
   select: "select w-full",
   button:
-    "flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm/6 font-semibold text-gray-200 shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 cursor-pointer",
+    "btn flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm/6 font-semibold text-gray-200 shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 cursor-pointer",
   textarea: "textarea w-full",
 };
 
@@ -60,7 +60,7 @@ const EditProfile = ({ user }) => {
     <div className="flex flex-col lg:flex-row justify-center my-10">
       {/* Form Section */}
       <div className="mx-4 lg:mx-10">
-        <h2 className="mt-1 text-center text-2xl/9 font-bold tracking-tight text-gray-300">
+        <h2 className="mt-1 text-center text-2xl/9 font-bold tracking-tight">
           Edit Profile
         </h2>
 
@@ -275,7 +275,7 @@ const EditProfile = ({ user }) => {
       {/* Preview Section */}
       <div className="flex justify-center mx-10">
         <div className="w-full">
-          <h2 className="mt-1 text-center text-2xl/9 font-bold tracking-tight text-gray-300">
+          <h2 className="mt-1 text-center text-2xl/9 font-bold tracking-tight">
             Profile Preview
           </h2>
 

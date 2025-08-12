@@ -45,14 +45,14 @@ const Requests = () => {
 
   if (requests && requests.length === 0)
     return (
-      <h1 className="mt-1 text-center text-2xl/9 font-bold tracking-tight text-gray-300">
+      <h1 className="mt-12 text-center text-2xl/9 font-bold tracking-tight">
         No Requests Found!!!
       </h1>
     );
 
   return (
     <div className="my-10">
-      <h2 className="mb-8 text-center text-2xl/9 font-bold tracking-tight text-gray-300">
+      <h2 className="mb-8 text-center text-2xl/9 font-bold tracking-tight">
         Connection Requests
       </h2>
 
