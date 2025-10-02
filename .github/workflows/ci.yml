@@ -48,7 +48,7 @@ jobs:
 
     steps:
       - name: Checkout (optional)
-        uses: actions/checkout@4
+        uses: actions/checkout@v4
 
       - name: Add HETZNER host to known_hosts
         run: |
