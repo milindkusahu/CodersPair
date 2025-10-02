@@ -63,7 +63,7 @@ const userSchema = new mongoose.Schema(
       type: [String],
     },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 userSchema.methods.getJWT = async function () {
@@ -82,7 +82,7 @@ userSchema.methods.validatePassword = async function (passwordInputByUser) {
 
   const isPasswordValid = await bcrypt.compare(
     passwordInputByUser,
-    passwordHash
+    passwordHash,
   );
 
   return isPasswordValid;

@@ -21,7 +21,7 @@ const connectionRequestSchema = new mongoose.Schema(
       },
     },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 // Compound index in MongoDB optimizes queries involving multiple fields, but only works efficiently when queried in the same field order or prefix.
@@ -38,7 +38,7 @@ connectionRequestSchema.pre("save", function (next) {
 
 const ConnectionRequest = new mongoose.model(
   "ConnectionRequest",
-  connectionRequestSchema
+  connectionRequestSchema,
 );
 
 module.exports = ConnectionRequest;

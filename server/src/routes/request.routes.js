@@ -50,9 +50,9 @@ router.post("/request/send/:status/:toUserId", userAuth, async (req, res) => {
 
     const data = await connectionRequest.save();
 
-    const emailRes = await sendEmail.run(
+    await sendEmail.run(
       `A new friend request from ${req.user.firstName}`,
-      `${req.user.firstName} is ${status} in ${toUser.firstName}`
+      `${req.user.firstName} is ${status} in ${toUser.firstName}`,
     );
 
     res.json({
@@ -102,7 +102,7 @@ router.post(
     } catch (err) {
       res.status(400).send("ERROR : " + err.message);
     }
-  }
+  },
 );
 
 module.exports = router;

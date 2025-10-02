@@ -25,7 +25,7 @@ app.use(
         ? "http://localhost:5173"
         : "https://coderspair.com",
     credentials: true,
-  })
+  }),
 );
 app.use(express.json());
 app.use(cookieParser());

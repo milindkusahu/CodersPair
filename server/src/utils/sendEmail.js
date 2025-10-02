@@ -34,7 +34,7 @@ const run = async (subject, body) => {
     "milindsahu2000@gmail.com",
     "support@coderspair.com",
     subject,
-    body
+    body,
   );
 
   try {

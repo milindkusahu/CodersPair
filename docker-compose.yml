@@ -1,0 +1,18 @@
+services:
+  backend:
+    build: ./server
+    container_name: coderspair-backend
+    restart: always
+    env_file:
+      - ./server/.env
+    ports:
+      - "3000:3000"
+
+  frontend:
+    build: ./client
+    container_name: coderspair-frontend
+    restart: always
+    ports:
+      - "5173:5173"
+    depends_on:
+      - backend

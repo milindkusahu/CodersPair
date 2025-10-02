@@ -1,6 +1,6 @@
 import axios from "axios";
 import { BASE_URL } from "../utils/constants";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addRequest, removeRequest } from "../utils/requestSlice";
 
@@ -20,7 +20,7 @@ const Requests = () => {
     }
   };
 
-  const fetchRequests = async () => {
+  const fetchRequests = useCallback(async () => {
     try {
       setLoading(true);
       const res = await axios.get(`${BASE_URL}/user/requests/received`);
@@ -31,12 +31,13 @@ const Requests = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [dispatch]);
 
   useEffect(() => {
     if (!requests || requests.length === 0) {
       fetchRequests();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   if (loading && (!requests || requests.length === 0)) {

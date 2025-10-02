@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { BASE_URL } from "../utils/constants";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
@@ -9,10 +9,10 @@ const Connections = () => {
   const dispatch = useDispatch();
 
   const [loading, setLoading] = useState(
-    !connections || connections.length === 0
+    !connections || connections.length === 0,
   );
 
-  const fetchConnections = async () => {
+  const fetchConnections = useCallback(async () => {
     try {
       setLoading(true);
       const res = await axios.get(`${BASE_URL}/user/connections`);
@@ -22,12 +22,13 @@ const Connections = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [dispatch]);
 
   useEffect(() => {
     if (!connections || connections.length === 0) {
       fetchConnections();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   if (loading && (!connections || connections.length === 0)) {

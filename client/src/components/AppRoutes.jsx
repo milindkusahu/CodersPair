@@ -26,7 +26,7 @@ function AppRoutes() {
       try {
         const res = await axios.get(`${BASE_URL}/profile/view`);
         dispatch(addUser(res.data));
-      } catch (err) {
+      } catch {
         console.log("Not logged in");
       } finally {
         setAuthLoading(false);
