@@ -14,6 +14,8 @@ const profileRouter = require("./routes/profile.routes");
 const requestRouter = require("./routes/request.routes");
 const userRouter = require("./routes/user.routes");
 
+// require("../src/utils/cronJob");
+
 // It will be run for all Routes
 // Converts JSON Object to JS Object
 app.use(
