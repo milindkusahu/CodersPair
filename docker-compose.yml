@@ -1,18 +1,51 @@
 services:
   backend:
-    build: ./server
+    build:
+      context: ./server
+      dockerfile: Dockerfile
     container_name: coderspair-backend
-    restart: always
+    restart: unless-stopped
     env_file:
       - ./server/.env
-    ports:
-      - "3000:3000"
+    networks:
+      - coderspair-net
 
   frontend:
-    build: ./client
+    build:
+      context: ./client
+      dockerfile: Dockerfile
     container_name: coderspair-frontend
-    restart: always
-    ports:
-      - "5173:5173"
+    restart: unless-stopped
     depends_on:
       - backend
+    networks:
+      - coderspair-net
+
+  nginx:
+    image: nginx:alpine
+    container_name: nginx
+    restart: unless-stopped
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./certbot/conf:/etc/letsencrypt:ro
+      - ./certbot/www:/var/www/certbot:ro
+    ports:
+      - "80:80"
+      - "443:443"
+    depends_on:
+      - frontend
+      - backend
+    networks:
+      - coderspair-net
+
+  certbot:
+    image: certbot/certbot
+    container_name: certbot
+    volumes:
+      - ./certbot/conf:/etc/letsencrypt
+      - ./certbot/www:/var/www/certbot
+    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
+
+networks:
+  coderspair-net:
+    driver: bridge
