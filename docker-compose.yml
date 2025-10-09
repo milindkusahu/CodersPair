@@ -23,4 +23,5 @@ services:
 
 networks:
   coderspair-net:
+    name: coderspair-net
     driver: bridge
