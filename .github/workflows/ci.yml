@@ -77,14 +77,10 @@ jobs:
             git fetch --all
             git reset --hard origin/main
 
-            docker compose down
-
             docker compose up -d --build
 
             echo "Waiting for services to start..."
             sleep 10
-
-            docker compose exec -T nginx curl -f http://localhost/nginx-health || echo "Warning: nginx health check failed"
 
             docker image prune -f
 
