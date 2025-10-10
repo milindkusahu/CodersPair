@@ -15,6 +15,12 @@ import Requests from "../components/Requests";
 import ThemeSwitcher from "../components/ThemeSwitcher";
 import LandingPage from "../components/LandingPage";
 import PublicLayout from "../components/PublicLayout";
+import Premium from "./Premium";
+import PrivacyPolicy from "../pages/PrivacyPolicy";
+import TermsAndConditions from "../pages/TermsAndConditions";
+import CancellationRefund from "../pages/CancellationRefund";
+import ShippingDelivery from "../pages/ShippingDelivery";
+import ContactUs from "../pages/ContactUs";
 
 function AppRoutes() {
   const dispatch = useDispatch();
@@ -52,6 +58,11 @@ function AppRoutes() {
       <Route element={<PublicLayout />}>
         <Route path="login" element={<Login />} />
         <Route path="theme" element={<ThemeSwitcher />} />
+        <Route path="privacy-policy" element={<PrivacyPolicy />} />
+        <Route path="terms-and-conditions" element={<TermsAndConditions />} />
+        <Route path="cancellation-refund" element={<CancellationRefund />} />
+        <Route path="shipping-delivery" element={<ShippingDelivery />} />
+        <Route path="contact-us" element={<ContactUs />} />
       </Route>
 
       {/* Protected routes */}
@@ -60,6 +71,7 @@ function AppRoutes() {
         <Route path="profile" element={<Profile />} />
         <Route path="connections" element={<Connections />} />
         <Route path="requests" element={<Requests />} />
+        <Route path="premium" element={<Premium />} />
       </Route>
     </Routes>
   );

@@ -77,6 +77,11 @@ const NavBar = () => {
                 </Link>
               </li>
               <li>
+                <Link to="/premium" className="text-sm justify-between">
+                  Premium
+                </Link>
+              </li>
+              <li>
                 <Link
                   onClick={handleLogout}
                   className="text-sm justify-between"

@@ -1,10 +1,24 @@
+import { Link } from "react-router-dom";
+
 const Footer = () => {
   return (
     <footer className="footer footer-horizontal footer-center bg-base-300 rounded p-10 text-base">
       <nav className="grid grid-flow-col gap-4">
-        <a className="link link-hover">About Us</a>
-        <a className="link link-hover">Contact</a>
-        <a className="link link-hover">Privacy Policy</a>
+        <Link to="/privacy-policy" className="link link-hover">
+          Privacy Policy
+        </Link>
+        <Link to="/terms-and-conditions" className="link link-hover">
+          T&C
+        </Link>
+        <Link to="/cancellation-refund" className="link link-hover">
+          Cancellation and Refund
+        </Link>
+        <Link to="/shipping-delivery" className="link link-hover">
+          Shipping and Delivery
+        </Link>
+        <Link to="/contact-us" className="link link-hover">
+          Contact Us
+        </Link>
       </nav>
       <nav>
         <div className="grid grid-flow-col gap-4">

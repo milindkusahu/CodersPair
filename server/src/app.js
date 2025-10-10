@@ -13,6 +13,7 @@ const authRouter = require("./routes/auth.routes");
 const profileRouter = require("./routes/profile.routes");
 const requestRouter = require("./routes/request.routes");
 const userRouter = require("./routes/user.routes");
+const paymentRouter = require("./routes/payment.routes");
 
 require("../src/utils/cronJob");
 
@@ -34,6 +35,7 @@ app.use("/", authRouter);
 app.use("/", profileRouter);
 app.use("/", requestRouter);
 app.use("/", userRouter);
+app.use("/", paymentRouter);
 
 const start = async () => {
   try {
