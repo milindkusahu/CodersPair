@@ -1,7 +1,13 @@
 const { SendEmailCommand } = require("@aws-sdk/client-ses");
 const { sesClient } = require("./sesClient");
 
-const createSendEmailCommand = (toAddress, fromAddress, subject, body) => {
+const createSendEmailCommand = (
+  toAddress,
+  fromAddress,
+  subject,
+  htmlBody,
+  textBody,
+) => {
   return new SendEmailCommand({
     Destination: {
       /* required */
@@ -12,11 +18,13 @@ const createSendEmailCommand = (toAddress, fromAddress, subject, body) => {
       Body: {
         Html: {
           Charset: "UTF-8",
-          Data: `<h1>${body}</h1>`,
+          Data: htmlBody,
         },
         Text: {
           Charset: "UTF-8",
-          Data: "This is the text format email",
+          Data:
+            textBody ||
+            "Please view this email in an HTML-compatible email client.",
         },
       },
       Subject: {
@@ -29,12 +37,18 @@ const createSendEmailCommand = (toAddress, fromAddress, subject, body) => {
   });
 };
 
-const run = async (subject, body) => {
+const run = async (toEmail, subject, htmlBody, textBody = null) => {
+  // Validate email parameter
+  if (!toEmail) {
+    throw new Error("Recipient email address is required");
+  }
+
   const sendEmailCommand = createSendEmailCommand(
-    "milindsahu2000@gmail.com",
+    toEmail, // Now uses the parameter instead of hardcoded email
     "support@coderspair.com",
     subject,
-    body,
+    htmlBody,
+    textBody,
   );
 
   try {
@@ -48,5 +62,4 @@ const run = async (subject, body) => {
   }
 };
 
-// snippet-end:[ses.JavaScript.email.sendEmailV3]
 module.exports = { run };

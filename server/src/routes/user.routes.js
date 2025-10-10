@@ -23,7 +23,7 @@ router.get("/user/requests/received", userAuth, async (req, res) => {
       data: connectionRequest,
     });
   } catch (err) {
-    req.status(400).send(`Error: ${err.message}`);
+    res.status(400).send(`Error: ${err.message}`);
   }
 });
 

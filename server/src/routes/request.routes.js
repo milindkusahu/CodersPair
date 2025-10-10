@@ -2,10 +2,13 @@ const express = require("express");
 const { userAuth } = require("../middleware/auth.middleware");
 const ConnectionRequest = require("../models/connectionRequest.model");
 const { User } = require("../models/user.model");
+const sendEmail = require("../utils/sendEmail");
+const {
+  newConnectionRequestTemplate,
+  connectionAcceptedTemplate,
+} = require("../utils/emailTemplates");
 
 const router = express.Router();
-
-const sendEmail = require("../utils/sendEmail");
 
 router.post("/request/send/:status/:toUserId", userAuth, async (req, res) => {
   try {
@@ -14,13 +17,15 @@ router.post("/request/send/:status/:toUserId", userAuth, async (req, res) => {
 
     // Already handled using .pre in Schema
     // if (fromUserId.toString() === toUserId.toString()) {
-    //   return res.status(400).json({ message: `Invaid Request` });
+    //   return res.status(400).json({ message: `Invalid Request` });
     // }
 
     const allowedStatus = ["ignored", "interested"];
 
     if (!allowedStatus.includes(status)) {
-      return res.status(400).json({ message: `Invaid Status type: ${status}` });
+      return res
+        .status(400)
+        .json({ message: `Invalid Status type: ${status}` });
     }
 
     const toUser = await User.findById(toUserId);
@@ -28,15 +33,15 @@ router.post("/request/send/:status/:toUserId", userAuth, async (req, res) => {
       return res.status(400).json({ message: `User not found!` });
     }
 
-    // Check if there is an exisitng connectionRequest
-    const exisitngConnectionRequest = await ConnectionRequest.findOne({
+    // Check if there is an existing connectionRequest
+    const existingConnectionRequest = await ConnectionRequest.findOne({
       $or: [
         { fromUserId, toUserId },
         { fromUserId: toUserId, toUserId: fromUserId },
       ],
     });
 
-    if (exisitngConnectionRequest) {
+    if (existingConnectionRequest) {
       return res
         .status(400)
         .send({ message: "Connection request already exists!!" });
@@ -50,10 +55,22 @@ router.post("/request/send/:status/:toUserId", userAuth, async (req, res) => {
 
     const data = await connectionRequest.save();
 
-    await sendEmail.run(
-      `A new friend request from ${req.user.firstName}`,
-      `${req.user.firstName} is ${status} in ${toUser.firstName}`,
-    );
+    try {
+      const htmlBody = newConnectionRequestTemplate(
+        req.user.firstName,
+        toUser.firstName,
+      );
+      const textBody = `${req.user.firstName} wants to connect with you on CodersPair. Login to view the request.`;
+
+      await sendEmail.run(
+        toUser.emailId,
+        `New connection request from ${req.user.firstName}`,
+        htmlBody,
+        textBody,
+      );
+    } catch (emailError) {
+      console.error("Failed to send email notification:", emailError.message);
+    }
 
     res.json({
       message: "Connection request sent Successfully!",
@@ -97,6 +114,29 @@ router.post(
       connectionRequest.status = status;
 
       const data = await connectionRequest.save();
+
+      // Send email notification if connection was accepted
+      if (status === "accepted") {
+        try {
+          await connectionRequest.populate("fromUserId");
+          const fromUser = connectionRequest.fromUserId;
+
+          const htmlBody = connectionAcceptedTemplate(
+            LoggedInUser.firstName,
+            fromUser.firstName,
+          );
+          const textBody = `${LoggedInUser.firstName} accepted your connection request on CodersPair!`;
+
+          await sendEmail.run(
+            fromUser.emailId,
+            `${LoggedInUser.firstName} accepted your connection request!`,
+            htmlBody,
+            textBody,
+          );
+        } catch (emailError) {
+          console.error("Failed to send acceptance email:", emailError.message);
+        }
+      }
 
       res.json({ message: `Connection request ${status}`, data: data });
     } catch (err) {
