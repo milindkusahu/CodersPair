@@ -11,11 +11,13 @@ const styles = {
     "input input-bordered bg-base-200 w-full rounded-md px-3 py-1.5 text-base focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600",
   button:
     "btn btn-primary flex w-full justify-center rounded-md px-3 py-1.5 text-sm/6 font-semibold shadow-xs focus-visible:outline-2 focus-visible:outline-offset-2",
+  demoButton:
+    "btn btn-outline btn-secondary flex w-full justify-center rounded-md px-3 py-1.5 text-sm/6 font-semibold shadow-xs focus-visible:outline-2 focus-visible:outline-offset-2",
 };
 
 const Login = () => {
-  const [emailId, setEmailId] = useState("ankit@x.com");
-  const [password, setPassword] = useState("eaof#648SJJ_5");
+  const [emailId, setEmailId] = useState("");
+  const [password, setPassword] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [isLoginForm, setIsLoginForm] = useState(true);
@@ -51,6 +53,20 @@ const Login = () => {
       });
       dispatch(addUser(res.data.data));
       navigate("/profile");
+    } catch (err) {
+      setError(err?.response?.data || "Something went wrong");
+    }
+  };
+
+  const handleDemoLogin = async () => {
+    try {
+      const res = await axios.post(`${BASE_URL}/login`, {
+        emailId: "ankit@x.com",
+        password: "eaof#648SJJ_5",
+      });
+
+      dispatch(addUser(res.data));
+      navigate("/");
     } catch (err) {
       setError(err?.response?.data || "Something went wrong");
     }
@@ -167,6 +183,18 @@ const Login = () => {
             </button>
           </div>
         </form>
+
+        {isLoginForm && (
+          <div className="mt-4">
+            <button
+              type="button"
+              onClick={handleDemoLogin}
+              className={styles.demoButton}
+            >
+              Demo Login
+            </button>
+          </div>
+        )}
 
         <p className="mt-8 text-center text-sm/6 cursor-pointer">
           {isLoginForm
