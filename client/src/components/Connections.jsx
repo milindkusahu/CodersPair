@@ -3,6 +3,7 @@ import { BASE_URL } from "../utils/constants";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { addConnections } from "../utils/connectionsSlice";
+import { Link } from "react-router-dom";
 
 const Connections = () => {
   const connections = useSelector((store) => store.connections);
@@ -104,10 +105,15 @@ const Connections = () => {
                 )}
 
                 <div className="card-actions">
-                  <button className="btn btn-primary btn-sm">
+                  <Link to="/profile" className="btn btn-primary btn-sm">
                     View Profile
-                  </button>
-                  <button className="btn btn-ghost btn-sm">Message</button>
+                  </Link>
+                  <Link
+                    to={`/chat/${_id}`}
+                    className="btn btn-secondary btn-sm"
+                  >
+                    Chat Now
+                  </Link>
                 </div>
               </div>
             </div>

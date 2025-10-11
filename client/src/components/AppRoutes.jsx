@@ -21,6 +21,7 @@ import TermsAndConditions from "../pages/TermsAndConditions";
 import CancellationRefund from "../pages/CancellationRefund";
 import ShippingDelivery from "../pages/ShippingDelivery";
 import ContactUs from "../pages/ContactUs";
+import Chat from "../components/Chat";
 
 function AppRoutes() {
   const dispatch = useDispatch();
@@ -72,6 +73,7 @@ function AppRoutes() {
         <Route path="connections" element={<Connections />} />
         <Route path="requests" element={<Requests />} />
         <Route path="premium" element={<Premium />} />
+        <Route path="chat/:targetUserId" element={<Chat />} />
       </Route>
     </Routes>
   );

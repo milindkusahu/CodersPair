@@ -1,4 +1,4 @@
-import { useNavigate, Outlet } from "react-router-dom";
+import { useNavigate, Outlet, useLocation } from "react-router-dom";
 import NavBar from "./NavBar";
 import Footer from "./Footer";
 import axios from "axios";
@@ -8,6 +8,9 @@ import { addUser } from "../utils/userSlice";
 import { useEffect } from "react";
 
 const ProtectedLayout = () => {
+  const location = useLocation();
+  const isChat = location.pathname.startsWith("/chat");
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const userData = useSelector((store) => store.user);
@@ -35,7 +38,7 @@ const ProtectedLayout = () => {
       <main className="flex-1">
         <Outlet />
       </main>
-      <Footer />
+      {!isChat && <Footer />}
     </div>
   );
 };

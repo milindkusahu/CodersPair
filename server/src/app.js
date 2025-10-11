@@ -6,6 +6,7 @@ const PORT = process.env.PORT || 3000;
 
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
+const http = require("http");
 
 const { connectDB } = require("./db/connect");
 
@@ -14,11 +15,10 @@ const profileRouter = require("./routes/profile.routes");
 const requestRouter = require("./routes/request.routes");
 const userRouter = require("./routes/user.routes");
 const paymentRouter = require("./routes/payment.routes");
+const initializeSocket = require("./utils/socket");
 
 require("../src/utils/cronJob");
 
-// It will be run for all Routes
-// Converts JSON Object to JS Object
 app.use(
   cors({
     origin:
@@ -37,10 +37,13 @@ app.use("/", requestRouter);
 app.use("/", userRouter);
 app.use("/", paymentRouter);
 
+const server = http.createServer(app);
+initializeSocket(server);
+
 const start = async () => {
   try {
     await connectDB();
-    app.listen(PORT, () => {
+    server.listen(PORT, () => {
       console.log(`✅ Server is listening at PORT: ${PORT}`);
     });
   } catch (error) {
