@@ -15,6 +15,7 @@ const profileRouter = require("./routes/profile.routes");
 const requestRouter = require("./routes/request.routes");
 const userRouter = require("./routes/user.routes");
 const paymentRouter = require("./routes/payment.routes");
+const chatRouter = require("./routes/chat.routes");
 const initializeSocket = require("./utils/socket");
 
 require("../src/utils/cronJob");
@@ -36,6 +37,7 @@ app.use("/", profileRouter);
 app.use("/", requestRouter);
 app.use("/", userRouter);
 app.use("/", paymentRouter);
+app.use("/", chatRouter);
 
 const server = http.createServer(app);
 initializeSocket(server);

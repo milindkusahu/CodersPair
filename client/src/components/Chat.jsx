@@ -10,7 +10,8 @@ const Chat = () => {
   const { targetUserId } = useParams();
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [connectionsLoading, setConnectionsLoading] = useState(false);
+  const [chatLoading, setChatLoading] = useState(false);
   const messagesEndRef = useRef(null);
   const socketRef = useRef(null);
   const navigate = useNavigate();
@@ -26,13 +27,13 @@ const Chat = () => {
     const fetchConnections = async () => {
       if (!connections || connections.length === 0) {
         try {
-          setLoading(true);
+          setConnectionsLoading(true);
           const res = await axios.get(`${BASE_URL}/user/connections`);
           dispatch(addConnections(res?.data?.data));
         } catch (error) {
           console.error("Error fetching connections:", error);
         } finally {
-          setLoading(false);
+          setConnectionsLoading(false);
         }
       }
     };
@@ -44,24 +45,69 @@ const Chat = () => {
   const targetUser = connections?.find((conn) => conn._id === targetUserId);
 
   useEffect(() => {
+    const fetchChatHistory = async () => {
+      if (!userId || !targetUserId) return;
+
+      try {
+        setChatLoading(true);
+        const chat = await axios.get(`${BASE_URL}/chat/${targetUserId}`);
+
+        // Transform messages - senderId is now populated with firstName and lastName
+        const formattedMessages =
+          chat?.data?.messages.map((msg) => ({
+            firstName: msg?.senderId.firstName,
+            lastName: msg?.senderId.lastName,
+            text: msg?.text,
+            timestamp: msg?.createdAt,
+          })) || []; // fallback to empty array
+
+        setMessages(formattedMessages);
+      } catch (error) {
+        console.error("Error fetching chat history:", error);
+
+        if (error.response?.status === 403) {
+          alert("You can only chat with connected users");
+          navigate("/connections");
+        }
+        setMessages([]);
+      } finally {
+        setChatLoading(false);
+      }
+    };
+
+    if (targetUser) {
+      fetchChatHistory();
+    }
+  }, [userId, targetUserId, targetUser, navigate]);
+
+  useEffect(() => {
     if (!userId || !targetUser) return;
 
     socketRef.current = createSocketConnection();
     socketRef.current.emit("joinChat", { userId, targetUserId });
 
-    socketRef.current.on("messageReceived", ({ firstName, text }) => {
-      setMessages((prevMessages) => [
-        ...prevMessages,
-        { firstName, text, timestamp: new Date() },
-      ]);
+    socketRef.current.on("error", ({ message }) => {
+      console.error("Socket error:", message);
+      alert(message);
+      navigate("/connections");
     });
+
+    socketRef.current.on(
+      "messageReceived",
+      ({ firstName, lastName, text, timeStamp }) => {
+        setMessages((prevMessages) => [
+          ...prevMessages,
+          { firstName, lastName, text, timestamp: timeStamp },
+        ]);
+      },
+    );
 
     return () => {
       if (socketRef.current) {
         socketRef.current.disconnect();
       }
     };
-  }, [userId, targetUserId, targetUser]);
+  }, [userId, targetUserId, targetUser, navigate]);
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -73,6 +119,7 @@ const Chat = () => {
     if (socketRef.current) {
       socketRef.current.emit("sendMessage", {
         firstName: user.firstName,
+        lastName: user.lastName,
         userId,
         targetUserId,
         text: newMessage,
@@ -89,7 +136,12 @@ const Chat = () => {
     }
   };
 
-  if (loading || (!targetUser && (!connections || connections.length === 0))) {
+  const isLoading = connectionsLoading || chatLoading;
+
+  if (
+    isLoading ||
+    (!targetUser && (!connections || connections.length === 0))
+  ) {
     return (
       <div className="flex items-center justify-center min-h-screen">
         <span className="loading loading-spinner loading-lg"></span>
