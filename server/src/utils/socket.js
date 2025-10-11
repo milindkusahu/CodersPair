@@ -19,11 +19,7 @@ const initializeSocket = (server) => {
           : "https://coderspair.com",
       credentials: true,
     },
-    // Force WebSocket transport and increase timeouts
     transports: ["websocket", "polling"],
-    allowEIO3: true,
-    pingTimeout: 60000,
-    pingInterval: 25000,
   });
 
   io.on("connection", (socket) => {

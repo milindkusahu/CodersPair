@@ -5,7 +5,8 @@ export const createSocketConnection = () => {
   if (location.hostname === "localhost") {
     return io(BASE_URL);
   } else {
-    return io("https://coderspair.com/api", {
+    return io("/", {
+      path: "/api/socket.io",
       transports: ["websocket", "polling"],
       reconnection: true,
       reconnectionAttempts: 5,
